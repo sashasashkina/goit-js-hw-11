@@ -1,3 +1,4 @@
+import { Notify } from 'notiflix';
 import { getImages } from './helpers-api';
 import { createMarkUp } from './markup';
 
@@ -7,6 +8,7 @@ const galleryImage = document.querySelector('.gallery');
 const btnLodeMore = document.querySelector('.load-more');
 
 let page = 1;
+let searchName = '';
 
 function handleSubmit(e) {
   e.preventDefault();
@@ -15,14 +17,24 @@ function handleSubmit(e) {
 
   galleryImage.innerHTML = '';
 
-  const searchName = searchInput.value;
+  searchName = searchInput.value;
 
   getImages(searchName, page)
-    .then(({ data: { hits } }) => createMarkUp(hits))
-    .catch(error => console.log(error))
+    .then(({ data: { hits, totalHits } }) => {
+      if (hits.length === 0) {
+        throw new Error();
+      }
+      createMarkUp(hits);
+      btnLodeMore.removeAttribute('hidden');
+      Notify.success(`Hooray! We found ${totalHits} images.`);
+    })
+    .catch(() =>
+      Notify.failure(
+        `Sorry, there are no images matching your search query. Please try again.`
+      )
+    )
     .finally(() => {
       e.target.reset();
-      btnLodeMore.removeAttribute('hidden');
     });
 }
 
@@ -32,11 +44,18 @@ function handleClick(event) {
   page += 1;
 
   getImages(searchName, page)
-    .then(({ data: { hits } }) => createMarkUp(hits))
-    .catch(error => console.log(error))
-    .finally(() => {
+    .then(({ data: { hits, totalHits } }) => {
+      if (hits.length === 0) {
+        btnLodeMore.setAttribute('hidden', true);
+        Notify.info(
+          `We're sorry, but you've reached the end of search results.`
+        );
+        return;
+      }
+      createMarkUp(hits);
       btnLodeMore.removeAttribute('hidden');
-    });
+    })
+    .catch(error => console.log(error));
 }
 
 searchForm.addEventListener('submit', handleSubmit);

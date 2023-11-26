@@ -34,6 +34,7 @@ function handleSubmit(e) {
       }
       createMarkUp(hits);
       btnLodeMore.removeAttribute('hidden');
+      // btnLodeMore.style.display = 'none';
       Notify.success(`Hooray! We found ${totalHits} images.`);
       lightbox.refresh();
     })

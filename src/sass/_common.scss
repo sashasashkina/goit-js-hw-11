@@ -87,14 +87,9 @@ img {
 }
 
 .load-more {
-  display: block;
-  margin-top: 30px;
-  margin-bottom: 50px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 4px;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 0);
   border-color: transparent;
   color: #fff;
   background-color: rgb(37, 71, 204);

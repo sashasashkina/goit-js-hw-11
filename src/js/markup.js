@@ -13,7 +13,7 @@ export function createMarkUp(array) {
         downloads,
       }) =>
         `<div class="photo-card">
-             <a href="${largeImageURL}">
+             <a class="gallery-link" href="${largeImageURL}">
              <img
              class="gallery__image img"
              src="${webformatURL}"
@@ -38,6 +38,7 @@ export function createMarkUp(array) {
               <span>${downloads}</span>
             </p>
           </div>
+          </a>
          </div>`
     )
     .join('');

@@ -21,10 +21,6 @@ async function handleSubmit(e) {
   e.preventDefault();
   page = 1;
   galleryImage.innerHTML = '';
-
-  if (!searchName) {
-    return;
-  }
   searchName = searchInput.value.trim();
   try {
     const images = await getImages(searchName, page);
@@ -72,6 +68,5 @@ async function handleClick() {
     console.log(error);
   }
 }
-
 searchForm.addEventListener('submit', handleSubmit);
 btnLodeMore.addEventListener('click', handleClick);
